@@ -1,61 +1,58 @@
+// build.gradle.kts (Module: app)
+
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
+    id("com.android.application")
+    id("org.jetbrains.kotlin.android")
 }
 
 android {
-    namespace = "com.example.realtime"
-    compileSdk = 36
+    namespace = "com.example.realtime" // Check your actual package name here
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.example.realtime"
         minSdk = 24
-        targetSdk = 36
+//        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        // --- NDK/CMake Configuration (CRITICAL FOR NATIVE CODE) ---
         externalNativeBuild {
             cmake {
-                cppFlags += "-std=c++17"
+                // Set C++ flags
+                cppFlags.add("-std=c++17")
+
+                // Arguments passed to CMake (for OpenCV path)
+                arguments.addAll(listOf(
+                    // NOTE: Change this path if your OpenCV SDK location is different!
+                    // This path points to the compiled .so files that CMake will link against.
+                    "-DOPENCV_LIB_DIR=${project.rootDir}/app/src/main/jniLibs/arm64-v8a"
+                ))
             }
         }
     }
 
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-    kotlinOptions {
-        jvmTarget = "11"
-    }
+    // Tell Gradle where to find your CMake file
     externalNativeBuild {
         cmake {
             path = file("src/main/cpp/CMakeLists.txt")
-            version = "3.22.1"
         }
     }
-    buildFeatures {
-        viewBinding = true
+
+    // This block tells Gradle to include the .so files found in jniLibs
+    sourceSets.getByName("main") {
+        jniLibs.srcDirs("src/main/jniLibs")
     }
+
+    // ... rest of the android block
 }
 
 dependencies {
-
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
-    implementation(libs.androidx.constraintlayout)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
+    // Use parentheses for function calls in Kotlin DSL
+    implementation("androidx.core:core-ktx:1.9.0")
+    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    // ... other dependencies
 }
