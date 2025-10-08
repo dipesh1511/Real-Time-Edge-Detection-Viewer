@@ -1,0 +1,15 @@
+{
+  "name": "edge-viewer-web",
+  "version": "1.0.0",
+  "description": "TypeScript Web Viewer for Edge Detection Assessment",
+  "main": "dist/app.js",
+  "scripts": {
+    "build": "tsc"
+  },
+  "keywords": ["typescript", "web", "assessment"],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  }
+}

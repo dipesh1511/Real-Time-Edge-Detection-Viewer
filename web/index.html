@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edge Detection Viewer</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        #viewer-container { margin-top: 20px; border: 1px solid #ccc; display: inline-block; }
+        #processed-image { max-width: 100%; height: auto; display: block; }
+        #stats-overlay { background: #333; color: white; padding: 10px; margin-top: 10px; }
+    </style>
+</head>
+<body>
+<h1>Real-Time Edge Detection Viewer (Static Sample)</h1>
+
+<div id="stats-overlay">
+    <p>Resolution: <span id="res">640x480</span> | FPS: <span id="fps">15.2</span></p>
+    <p id="status">Status: Static Sample Loaded</p>
+</div>
+
+<div id="viewer-container">
+    <img id="processed-image" alt="Processed Frame">
+</div>
+
+<script src="./dist/app.js"></script>
+</body>
+</html>

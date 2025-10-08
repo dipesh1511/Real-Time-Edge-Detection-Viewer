@@ -1,5 +1,5 @@
 // build.gradle.kts (Module: app)
-
+import org.gradle.api.JavaVersion
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -12,11 +12,20 @@ android {
     defaultConfig {
         applicationId = "com.example.realtime"
         minSdk = 24
-//        targetSdk = 34
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        compileOptions {
+            sourceCompatibility = JavaVersion.VERSION_17
+            targetCompatibility = JavaVersion.VERSION_17
+        }
+
+        kotlinOptions {
+            jvmTarget = "17"
+        }
 
         // --- NDK/CMake Configuration (CRITICAL FOR NATIVE CODE) ---
         externalNativeBuild {
@@ -24,13 +33,11 @@ android {
                 // Set C++ flags
                 cppFlags.add("-std=c++17")
 
-                // Arguments passed to CMake (for OpenCV path)
-                arguments.addAll(listOf(
-                    // NOTE: Change this path if your OpenCV SDK location is different!
-                    // This path points to the compiled .so files that CMake will link against.
-                    "-DOPENCV_LIB_DIR=${project.rootDir}/app/src/main/jniLibs/arm64-v8a"
-                ))
             }
+        }
+
+        ndk {
+            abiFilters.addAll(listOf("arm64-v8a", "x86_64"))
         }
     }
 
@@ -54,5 +61,5 @@ dependencies {
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    // ... other dependencies
+    implementation("com.google.android.material:material:1.11.0")
 }
