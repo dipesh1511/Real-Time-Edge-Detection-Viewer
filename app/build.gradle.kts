@@ -1,5 +1,5 @@
 // build.gradle.kts (Module: app)
-import org.gradle.api.JavaVersion
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.realtime"
-        minSdk = 24
+        minSdk = 27 // Perfect for CameraX!
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -23,16 +23,11 @@ android {
             targetCompatibility = JavaVersion.VERSION_17
         }
 
-        kotlinOptions {
-            jvmTarget = "17"
-        }
-
         // --- NDK/CMake Configuration (CRITICAL FOR NATIVE CODE) ---
         externalNativeBuild {
             cmake {
                 // Set C++ flags
-                cppFlags.add("-std=c++17")
-
+                arguments += listOf("-DANDROID_STL=c++_shared")
             }
         }
 
@@ -52,14 +47,20 @@ android {
     sourceSets.getByName("main") {
         jniLibs.srcDirs("src/main/jniLibs")
     }
-
-    // ... rest of the android block
 }
 
 dependencies {
-    // Use parentheses for function calls in Kotlin DSL
-    implementation("androidx.core:core-ktx:1.9.0")
-    implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+
+    // 🚨 CLEANED CAMERA X LIBRARIES
+    val cameraxVersion = "1.3.3"
+
+    implementation("androidx.camera:camera-core:1.3.3")
+    implementation("androidx.camera:camera-camera2:1.3.3")
+    implementation("androidx.camera:camera-lifecycle:1.3.3")
+    implementation("androidx.camera:camera-view:1.3.3")
+    implementation("androidx.camera:camera-extensions:1.3.3")
+    implementation("androidx.appcompat:appcompat:1.7.0")
+    implementation("androidx.constraintlayout:constraintlayout:2.2.0")
     implementation("com.google.android.material:material:1.11.0")
-}
+
+   }
