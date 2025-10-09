@@ -12,7 +12,7 @@ const loadViewer = () => {
         resolution: "640x480",
         status: "Processing Mock Data",
         // The image file path relative to index.html
-        imageUrl: "./src/sample_frame.png"
+        imageUrl: "../Output Screenshot/output1.jpeg"
     };
     // 3. Update Image Source
     if (imageElement) {

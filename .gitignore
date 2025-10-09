@@ -1,15 +1,73 @@
-*.iml
-.gradle
-/local.properties
+# Android build files
+.gradle/
+local.properties
 /.idea/caches
 /.idea/libraries
 /.idea/modules.xml
 /.idea/workspace.xml
 /.idea/navEditor.xml
 /.idea/assetWizardSettings.xml
+
+# Built application files
+*.apk
+*.ap_
+*.aab
+
+# Gradle
+.gradle/
+build/
+*/build/
+captures/
+output.json
+
+# NDK / C++
+*.so
+*.o
+*.obj
+*.log
+
+# IntelliJ / Android Studio
+.idea/
+*.iml
+*.iws
+sdk/
+# Keystore files
+*.jks
+*.keystore
+
+# OS-specific files
 .DS_Store
-/build
-/captures
-.externalNativeBuild
-.cxx
-local.properties
+Thumbs.db
+
+# Generated JNI/NDK intermediate build files
+.cxx/
+.externalNativeBuild/
+
+# OpenCV SDK binary folders (prevent heavy commits)
+opencv/
+OpenCV-android-sdk/
+opencv-android-sdk/
+
+# Logs
+*.log
+
+# Kotlin / Java specific
+*.class
+
+# Gradle Wrapper
+!gradle/wrapper/gradle-wrapper.jar
+!gradle/wrapper/gradle-wrapper.properties
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+
+# Misc
+*.swp
+*.swo
+
+
+# web
+
+web/node_modules
