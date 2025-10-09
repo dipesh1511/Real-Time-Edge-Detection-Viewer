@@ -40,8 +40,6 @@ Live Canny Edges (GIF) A short GIF showing the device moving and the edges chang
 Camera Input A static image (or frame) of the original scene (e.g., a room or an object).
 Processed Output A corresponding static image (like your output2.jpeg) showing the same scene after Canny Edge Detection has been applied (black background with white lines).
 
-![Processed Canny Edge Output](Output Screenshot/output2.jpeg)
-
 ⚙️ Setup Instructions (NDK & OpenCV)
 This project requires native development tools to compile the C++ code and link the OpenCV library.
 
