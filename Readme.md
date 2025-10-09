@@ -1,85 +1,66 @@
-Real-Time Canny Edge Detection (Android NDK)
-This project demonstrates a high-performance real-time computer vision pipeline on Android by integrating the CameraX API with native C++ (NDK), OpenCV, and OpenGL ES 2.0.
+# Real-Time Canny Edge Detection Viewer
 
-🌟 Implemented Features
-Category
+## Implemented Features
 
-Features Implemented (Android/Kotlin)
+Android (Kotlin/NDK)
 
-Features Implemented (Native C++/OpenCV)
+- Real-Time Frame Capture: Captures live video stream efficiently using CameraX.
 
-Video Processing
+- Native Edge Detection: Executes OpenCV's Canny algorithm directly in C++ (NDK) for zero-lag processing.
 
-Real-time frame capture using CameraX.
+- High-Speed Rendering: Displays the processed output using OpenGL ES 2.0 for GPU acceleration.
 
-Canny Edge Detection on every live frame.
+- Zero-Copy Efficiency: Passes raw frame buffers via JNI to minimize data transfer overhead.
 
-Performance
+Web (HTML/JS)
 
-Efficient frame transfer using raw YUV buffers.
+- Static Output Viewer: Simple HTML/CSS template designed to display a single static image (screenshot) of the final processed output.
 
-High-speed processing via native C++ (NDK).
+## Setup Instructions (NDK & OpenCV)
 
-Rendering
+To build and run the Android application, you must configure your native development environment.
 
-High-performance rendering using OpenGL ES 2.0.
+1. NDK and CMake Installation:
 
-Direct data upload from OpenCV cv::Mat to an OpenGL texture (glTexImage2D).
+- In Android Studio, go to SDK Manager → SDK Tools.
 
-Usability
+- Install NDK (Side by Side) and CMake.
 
-Automated Camera Permission Handling.
+2. OpenCV Dependencies:
 
-Corrected video orientation and mirroring for proper display.
+- Ensure the prebuilt OpenCV Android SDK is integrated into your project.
 
-📸 Screenshots and Visual Output
-Since this is a high-performance application, the visual quality and responsiveness are key features. When documenting your project, you should include screenshots or, ideally, a short GIF to demonstrate the real-time effect.
+- Verify that your CMakeLists.txt correctly finds and links the necessary OpenCV libraries (e.g., opencv_imgproc).
 
-Visual Element Description
-Live Canny Edges (GIF) A short GIF showing the device moving and the edges changing dynamically, demonstrating zero-lag real-time processing.
-Camera Input A static image (or frame) of the original scene (e.g., a room or an object).
-Processed Output A corresponding static image (like your output2.jpeg) showing the same scene after Canny Edge Detection has been applied (black background with white lines).
+3. Permissions:
 
-⚙️ Setup Instructions (NDK & OpenCV)
-This project requires native development tools to compile the C++ code and link the OpenCV library.
+- Add the Camera permission to your AndroidManifest.xml:
 
-1. Android NDK and CMake
-   Install NDK & CMake: In Android Studio, go to Settings (or Preferences) → SDK Manager → SDK Tools. Install the following components:
+- <uses-permission android:name="android.permission.CAMERA" />
+- <uses-feature android:name="android.hardware.camera" />
 
-NDK (Side by Side)
+## Architecture and Frame Flow
 
-CMake
+JNI and Frame Flow
 
-Verify Path: Ensure the NDK path is correctly configured in your project's local.properties file.
+1. Capture (Kotlin/CameraX): Kotlin captures the camera frame and obtains the raw YUV ByteBuffer data.
 
-2. OpenCV Dependencies
-   This step ensures your C++ code can access the OpenCV library functions (like cv::Canny and cv::cvtColor).
+2. Dispatch (JNI): Kotlin calls the native C++ function (nativeProcessFrame) via JNI (Java Native Interface), passing the raw buffer and the OpenGL Texture ID. This is crucial for performance.
 
-Obtain OpenCV Library: You must have the prebuilt OpenCV Android SDK available in your project structure (or linked via Gradle).
+3. Process (C++/OpenCV):
 
-Configure CMake: Verify that your CMakeLists.txt file correctly uses find_package(OpenCV REQUIRED) and links the necessary libraries (e.g., opencv_core, opencv_imgproc) using target_link_libraries in the native build configuration.
+- C++ creates an efficient cv::Mat wrapper around the Y-plane (grayscale).
 
-🏛️ Architecture: JNI and Frame Flow
-This architecture is designed for maximum speed by utilizing the GPU for rendering and native C++ for processing.
+- OpenCV runs the Canny Edge Detection algorithm.
 
-Frame Flow (The 4-Step Cycle)
-Capture (Kotlin/CameraX): The Kotlin layer uses CameraX's ImageAnalysis to capture live frames and obtain the raw YUV ByteBuffer data.
+- The processed image is uploaded directly to the GPU Texture ID using glTexImage2D.
 
-Dispatch (JNI): The Kotlin code calls a native C++ function (nativeProcessFrame) via the JNI (Java Native Interface) bridge. This transfers the raw frame buffers and the GPU's OpenGL Texture ID to the native side.
+4. Render (OpenGL): The MyGLRenderer continuously draws this updated GPU texture to the screen.
 
-Process (C++/OpenCV):
+## Screenshots & GIF of the working app
 
-C++ creates a cv::Mat wrapper for the Y-plane (grayscale data).
-
-OpenCV runs the Canny Edge Detection algorithm.
-
-The result is converted to RGBA.
-
-The processed image data is uploaded directly to the GPU texture using glTexImage2D.
-
-Render (OpenGL): The MyGLRenderer uses OpenGL ES to continuously draw the updated texture onto the screen, resulting in the real-time edge effect.
-
-Note on TypeScript/Web
-The main application logic runs entirely on Android/Kotlin/C++.
-
-The separate Web/HTML component is purely a static viewer used to display a pre-processed output image from the main Android project; it does not contain the live Canny processing logic (C++/JNI).
+![Processed Canny Edge Output](Output_Screenshot/output1.jpeg)
+![Processed Canny Edge Output](Output_Screenshot/output2.jpeg)
+![Processed Canny Edge Output](Output_Screenshot/output3.jpeg)
+![Processed Canny Edge Output](Output_Screenshot/output4.jpeg)
+![Processed Canny Edge Output](Output_Screenshot/gif.gif)
