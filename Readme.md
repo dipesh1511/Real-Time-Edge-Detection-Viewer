@@ -57,6 +57,10 @@ JNI and Frame Flow
 
 4. Render (OpenGL): The MyGLRenderer continuously draws this updated GPU texture to the screen.
 
+## Project Layout
+
+project-root/ ├── app/ # Android app (Kotlin + JNI + C++) │ ├── src/main/java/ # Kotlin sources (MainActivity, renderer, server) │ ├── src/main/jni/ # C++ sources (NativeProcessor.cpp, NativeGLRenderer.cpp) │ └── src/main/res/layout/ # activity_main.xml ├── sdk/ # (place OpenCV Android SDK here) │ └── native/ │ ├── jni/include/ │ └── libs//libopencv_java4.so ├── web/ # TypeScript web viewer │ ├── index.html │ ├── main.ts │ └── tsconfig.json └── screenshots/ # Put screenshots / GIFs here
+
 ## Screenshots & GIF of the working app
 
 ![Processed Canny Edge Output](Output_Screenshot/output1.jpeg)
